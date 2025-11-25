@@ -51,7 +51,9 @@ class ScopeController extends Controller
 
         if ($request->hasFile('img')) {
             // uploads to storage/app/public/scopes/xxxx.png
-            $imgPath = $request->file('img')->store('scopes', 'public');
+            $file = $request->file('file');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('img'), $filename);
         }
 
         $scope = Scope::create([
@@ -65,7 +67,7 @@ class ScopeController extends Controller
             'status_id'    => $request->status_id,
             'country_code' => $request->country_code,
             'privacy'      => $request->privacy,
-            'img'          => $imgPath,   // <--- save correct path
+            'img'          => $filename,   // <--- save correct path
         ]);
 
         return response()->json($scope, 201);
