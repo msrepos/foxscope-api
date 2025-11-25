@@ -10,6 +10,7 @@ class Scope extends Model
         'name',
         'code',
         'note',
+        'img',
         'lat',
         'lng',
         'user_id',
