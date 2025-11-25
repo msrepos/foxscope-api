@@ -42,9 +42,35 @@ class ScopeController extends Controller
      */
     public function store(Request $request)
     {
-        $scope = Scope::create($request->all());
+        $request->validate([
+            'name' => 'required|string',
+            'img'  => 'nullable|image'
+        ]);
+
+        $imgPath = null;
+
+        if ($request->hasFile('img')) {
+            // uploads to storage/app/public/scopes/xxxx.png
+            $imgPath = $request->file('img')->store('scopes', 'public');
+        }
+
+        $scope = Scope::create([
+            'name'         => $request->name,
+            'code'         => $request->code,
+            'note'         => $request->note,
+            'lat'          => $request->lat,
+            'lng'          => $request->lng,
+            'user_id'      => $request->user_id,
+            'type_id'      => $request->type_id,
+            'status_id'    => $request->status_id,
+            'country_code' => $request->country_code,
+            'privacy'      => $request->privacy,
+            'img'          => $imgPath,   // <--- save correct path
+        ]);
+
         return response()->json($scope, 201);
     }
+
 
     /**
      * Display the specified resource.
