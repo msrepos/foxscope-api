@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class ScopeStatus extends Model
 {
-    //
+    protected $fillable = ['name', 'description'];
 }

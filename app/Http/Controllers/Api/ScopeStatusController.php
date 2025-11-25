@@ -29,7 +29,8 @@ class ScopeStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $scopeStatus = ScopeStatus::create($request->all());
+        return response()->json($scopeStatus, 201);
     }
 
     /**

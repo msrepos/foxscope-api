@@ -29,7 +29,8 @@ class ScopeTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $scopeType = ScopeType::create($request->all());
+        return response()->json($scopeType, 201);   
     }
 
     /**

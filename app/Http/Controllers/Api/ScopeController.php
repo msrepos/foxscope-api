@@ -42,7 +42,8 @@ class ScopeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $scope = Scope::create($request->all());
+        return response()->json($scope, 201);
     }
 
     /**
