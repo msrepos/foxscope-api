@@ -53,7 +53,7 @@ class ScopeController extends Controller
             // uploads to storage/app/public/scopes/xxxx.png
             $file = $request->file('file');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('img'), $filename);
+            $file->move(public_path('imgs'), $filename);
         }
 
         $scope = Scope::create([
