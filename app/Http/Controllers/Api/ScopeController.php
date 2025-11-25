@@ -47,13 +47,12 @@ class ScopeController extends Controller
             'img'  => 'nullable|image'
         ]);
 
-        $imgPath = null;
+        $filename = null;
 
         if ($request->hasFile('img')) {
-            // uploads to storage/app/public/scopes/xxxx.png
-            $file = $request->file('file');
+            $file = $request->file('img'); // match 'img'
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('imgs'), $filename);
+            $file->move(public_path('imgs'), $filename); // saved in public/imgs
         }
 
         $scope = Scope::create([
@@ -67,7 +66,7 @@ class ScopeController extends Controller
             'status_id'    => $request->status_id,
             'country_code' => $request->country_code,
             'privacy'      => $request->privacy,
-            'img'          => $filename,   // <--- save correct path
+            'img'          => $filename, // null if no image uploaded
         ]);
 
         return response()->json($scope, 201);
