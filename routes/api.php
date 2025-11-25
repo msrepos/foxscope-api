@@ -25,3 +25,7 @@ Route::apiResource('group', GroupController::class);
 Route::apiResource('scope-group', ScopeGroupController::class);
 
 Route::get('user-scope/{user}', [ScopeController::class, 'user']);
+
+route::get('test', function() {
+    return response()->json(['message' => 'API is working']);
+});
