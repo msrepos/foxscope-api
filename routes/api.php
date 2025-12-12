@@ -11,11 +11,7 @@ use App\Http\Controllers\Api\UserController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login',    [AuthController::class, 'login']);
-
-Route::middleware('auth:api')->group(function () {
-    Route::get('/profile', [AuthController::class, 'profile']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-});
+Route::get('user-scope/{user}', [ScopeController::class, 'user']);
 
 Route::apiResource('users', UserController::class);
 Route::apiResource('type', ScopeTypeController::class);
@@ -24,4 +20,8 @@ Route::apiResource('scope', ScopeController::class);
 Route::apiResource('group', GroupController::class);
 Route::apiResource('scope-group', ScopeGroupController::class);
 
-Route::get('user-scope/{user}', [ScopeController::class, 'user']);
+// ## authenticated endpoints ## \\
+Route::middleware('auth:api')->group(function () {
+    Route::get('/profile', [AuthController::class, 'profile']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
