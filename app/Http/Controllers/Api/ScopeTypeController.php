@@ -17,14 +17,6 @@ class ScopeTypeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -38,15 +30,7 @@ class ScopeTypeController extends Controller
      */
     public function show(ScopeType $scopeType)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ScopeType $scopeType)
-    {
-        //
+        return response()->json($scopeType, 200);
     }
 
     /**
@@ -54,7 +38,9 @@ class ScopeTypeController extends Controller
      */
     public function update(Request $request, ScopeType $scopeType)
     {
-        //
+        $scopeType->update($request->all());
+        return response()->json($scopeType, 200);
+    
     }
 
     /**
@@ -62,6 +48,7 @@ class ScopeTypeController extends Controller
      */
     public function destroy(ScopeType $scopeType)
     {
-        //
+        $scopeType->delete();
+        return response()->json(null, 204);
     }
 }

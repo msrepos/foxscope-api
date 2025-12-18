@@ -17,19 +17,16 @@ class GroupController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+        $group = Group::create($validated);
+        return response()->json($group, 201);  
     }
 
     /**
@@ -37,15 +34,7 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Group $group)
-    {
-        //
+        return response()->json($group, 200);
     }
 
     /**
@@ -53,7 +42,12 @@ class GroupController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'description' => 'sometimes|nullable|string',
+        ]);
+        $group->update($validated);
+        return response()->json($group, 200);
     }
 
     /**
@@ -61,6 +55,7 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        //
+        $group->delete();
+        return response()->json(null, 204);
     }
 }

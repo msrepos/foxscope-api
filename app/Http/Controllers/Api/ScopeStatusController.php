@@ -17,14 +17,6 @@ class ScopeStatusController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -38,15 +30,7 @@ class ScopeStatusController extends Controller
      */
     public function show(ScopeStatus $scopeStatus)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ScopeStatus $scopeStatus)
-    {
-        //
+        return response()->json($scopeStatus);
     }
 
     /**
@@ -54,7 +38,12 @@ class ScopeStatusController extends Controller
      */
     public function update(Request $request, ScopeStatus $scopeStatus)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'sometimes|required|string',
+            'code' => 'sometimes|required|string',
+        ]);
+        $scopeStatus->update($validatedData);
+        return response()->json($scopeStatus);
     }
 
     /**
@@ -62,6 +51,7 @@ class ScopeStatusController extends Controller
      */
     public function destroy(ScopeStatus $scopeStatus)
     {
-        //
+        $scopeStatus->delete();
+        return response()->json(null, 204);
     }
 }

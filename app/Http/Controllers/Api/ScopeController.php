@@ -30,14 +30,6 @@ class ScopeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -78,15 +70,7 @@ class ScopeController extends Controller
      */
     public function show(Scope $scope)
     {
-        return $scope;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Scope $scope)
-    {
-        //
+        return response()->json($scope);
     }
 
     /**
@@ -94,7 +78,20 @@ class ScopeController extends Controller
      */
     public function update(Request $request, Scope $scope)
     {
-        //
+        $validatedData = $request->validate([
+            'name'         => 'sometimes|required|string',
+            'code'         => 'sometimes|required|string',
+            'note'         => 'sometimes|nullable|string',
+            'lat'          => 'sometimes|nullable|numeric',
+            'lng'          => 'sometimes|nullable|numeric',
+            'user_id'      => 'sometimes|required|integer|exists:users,id',
+            'type_id'      => 'sometimes|required|integer|exists:scope_types,id',
+            'status_id'    => 'sometimes|required|integer|exists:scope_statuses,id',
+            'country_code' => 'sometimes|nullable|string',
+            'privacy'      => 'sometimes|required|in:public,private',
+        ]);
+        $scope->update($validatedData);
+        return response()->json($scope);    
     }
 
     /**
@@ -102,6 +99,7 @@ class ScopeController extends Controller
      */
     public function destroy(Scope $scope)
     {
-        //
+        $scope->delete();
+        return response()->json(null, 204);
     }
 }

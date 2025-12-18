@@ -17,19 +17,16 @@ class ScopeGroupController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $scopeGroupData = $request->validate([
+            'scope_id' => 'required|integer',
+            'group_id' => 'required|integer',
+        ]);
+        $scopeGroup = ScopeGroup::create($scopeGroupData);
+        return response()->json($scopeGroup, 201);
     }
 
     /**
@@ -37,15 +34,7 @@ class ScopeGroupController extends Controller
      */
     public function show(ScopeGroup $scopeGroup)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ScopeGroup $scopeGroup)
-    {
-        //
+        return response()->json($scopeGroup);
     }
 
     /**
@@ -53,7 +42,12 @@ class ScopeGroupController extends Controller
      */
     public function update(Request $request, ScopeGroup $scopeGroup)
     {
-        //
+        $validatedData = $request->validate([
+            'scope_id' => 'sometimes|required|integer',
+            'group_id' => 'sometimes|required|integer',
+        ]);
+        $scopeGroup->update($validatedData);
+        return response()->json($scopeGroup);
     }
 
     /**
@@ -61,6 +55,7 @@ class ScopeGroupController extends Controller
      */
     public function destroy(ScopeGroup $scopeGroup)
     {
-        //
+        $scopeGroup->delete();
+        return response()->json(null, 204);
     }
 }
