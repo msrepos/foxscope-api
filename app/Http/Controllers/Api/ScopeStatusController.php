@@ -28,9 +28,9 @@ class ScopeStatusController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ScopeStatus $scopeStatus)
+    public function show(ScopeStatus $status)
     {
-        return response()->json($scopeStatus);
+        return response()->json($status);
     }
 
     /**
@@ -49,9 +49,9 @@ class ScopeStatusController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ScopeStatus $scopeStatus)
+    public function destroy(ScopeStatus $status)
     {
-        $scopeStatus->delete();
+        $status->delete();
         return response()->json(null, 204);
     }
 }

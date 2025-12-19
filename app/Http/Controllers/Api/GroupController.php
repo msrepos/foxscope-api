@@ -24,6 +24,7 @@ class GroupController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'user_id' => 'required|integer',
         ]);
         $group = Group::create($validated);
         return response()->json($group, 201);  
@@ -43,8 +44,9 @@ class GroupController extends Controller
     public function update(Request $request, Group $group)
     {
         $validated = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'description' => 'sometimes|nullable|string',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'user_id' => 'required|integer',
         ]);
         $group->update($validated);
         return response()->json($group, 200);

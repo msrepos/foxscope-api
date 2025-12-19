@@ -28,9 +28,9 @@ class ScopeTypeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ScopeType $scopeType)
+    public function show(ScopeType $type)
     {
-        return response()->json($scopeType, 200);
+        return response()->json($type, 200);
     }
 
     /**
@@ -46,9 +46,9 @@ class ScopeTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ScopeType $scopeType)
+    public function destroy(ScopeType $type)
     {
-        $scopeType->delete();
+        $type->delete();
         return response()->json(null, 204);
     }
 }
