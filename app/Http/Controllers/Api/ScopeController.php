@@ -20,9 +20,10 @@ class ScopeController extends Controller
     /**
      * Display a listing of the user scopes.
      */
-    public function user(User $user)
-    {
-        $scopes = Scope::where('user_id', $user->id)
+    public function user(Request $request)
+    {   
+
+        $scopes = Scope::where('user_id', $request->user()->id)
             ->with('user:id,name')
             ->get();
 
