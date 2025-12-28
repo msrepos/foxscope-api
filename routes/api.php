@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CategoryScopeController;
 use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\ScopeController;
 use App\Http\Controllers\Api\ScopeGroupController;
@@ -24,5 +26,6 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('scope', ScopeController::class);
     Route::apiResource('group', GroupController::class);
     Route::apiResource('scope-group', ScopeGroupController::class);
-    
+    Route::apiResource('category', CategoryController::class);
+    Route::apiResource('category-scope', CategoryScopeController::class);
 });
