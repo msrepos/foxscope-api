@@ -7,22 +7,39 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
     // REGISTER
     public function register(Request $request)
     {
+        
         $request->validate([
             'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users',
+            'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:6',
+            'pic'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        $picName = null;
+
+        if ($request->hasFile('pic')) {
+            $pic = $request->file('pic');
+
+            // Generate unique file name
+            $picName = Str::uuid() . '.' . $pic->getClientOriginalExtension();
+
+            // Store in: storage/app/public/users
+            $pic->move(public_path('users'), $picName); // saved in public/imgs
+            //$pic->storeAs('public/users', $picName);
+        }
 
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
+            'pic'      => $picName
         ]);
 
         $token = $user->createToken('MobileApp')->plainTextToken;
