@@ -24,21 +24,35 @@ class UserController extends Controller
     // UPDATE USER
     public function update(Request $request, User $user)
     {
-        $request->validate([
-            'name' => 'sometimes|string|max:255',
+        $validated = $request->validate([
+            'name'  => 'sometimes|string|max:255',
             'email' => 'sometimes|email|unique:users,email,' . $user->id,
+            'pic'   => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'password' => 'nullable|min:6',
         ]);
 
-        $user->update($request->only('name', 'email'));
+        // Handle image upload
+        if ($request->hasFile('pic')) {
+            $file = $request->file('pic');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('users'), $filename);
 
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-            $user->save();
+            $validated['pic'] = $filename;
         }
 
-        return response()->json($user);
+        // Handle password
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($request->password);
+        }
+
+        $user->update($validated);
+
+        return response()->json([
+            'message' => 'User updated successfully',
+            'user' => $user
+        ]);
     }
+
 
     // DELETE USER
     public function destroy($id)
