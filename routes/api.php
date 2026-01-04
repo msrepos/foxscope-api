@@ -19,7 +19,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user-scope', [ScopeController::class, 'user']);
-
+    
+    Route::put('profile', [UserController::class, 'update']);
     Route::apiResource('users', UserController::class);
     Route::apiResource('type', ScopeTypeController::class);
     Route::apiResource('status', ScopeStatusController::class);

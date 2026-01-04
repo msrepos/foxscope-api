@@ -15,22 +15,6 @@ class UserController extends Controller
         return User::paginate(20);
     }
 
-    // CREATE USER
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name'     => 'required',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required|min:6',
-        ]);
-
-        return User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
-    }
-
     // SHOW USER
     public function show($id)
     {
@@ -38,18 +22,22 @@ class UserController extends Controller
     }
 
     // UPDATE USER
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        $user = User::findOrFail($id);
+        $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'email' => 'sometimes|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|min:6',
+        ]);
 
         $user->update($request->only('name', 'email'));
 
-        if ($request->password) {
+        if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
             $user->save();
         }
 
-        return $user;
+        return response()->json($user);
     }
 
     // DELETE USER
